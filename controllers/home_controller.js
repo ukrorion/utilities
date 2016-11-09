@@ -1,10 +1,6 @@
 class HomeController {
-  constructor(){
-    
-  }
-  
   index(req, res, next){
-    res.render('index', { title: 'Test' });
+    res.render('index', { title: 'Text test' });
   }
 }
 
