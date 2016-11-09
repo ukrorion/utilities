@@ -1,4 +1,4 @@
-module.exports  = class HomeController {
+class HomeController {
   constructor(){
     
   }
@@ -7,3 +7,5 @@ module.exports  = class HomeController {
     res.render('index', { title: 'Test' });
   }
 }
+
+module.exports = new HomeController();
