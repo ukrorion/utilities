@@ -19,6 +19,10 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('public/stylesheets'));
 });
 
+gulp.task('set_dev_env', () => {
+  return process.env.NODE_ENV = 'development';
+});
+
 gulp.task('server', () => {
   server.run(['bin/www']);
   gulp.watch(WATCH_TO_RESTART, (event) => {
@@ -30,4 +34,4 @@ gulp.task('server', () => {
 });
 
 
-gulp.task('default', ['sass','server']);
+gulp.task('default', ['sass', 'set_dev_env', 'server']);

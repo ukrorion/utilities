@@ -22,7 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 
-app.use(routes);
+app.use('/admin', routes.admin);
+app.use(routes.router);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
