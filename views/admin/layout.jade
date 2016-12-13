@@ -7,4 +7,10 @@ html
     script(src='/jquery/jquery.min.js')
     script(src='/bootstrap/js/bootstrap.min.js')
   body
-    block content
+    header
+      include ./shared/top_navigation
+    .container-fluid
+      .row
+        include ./shared/sidebar
+        section#content.col-lg-10
+          block content

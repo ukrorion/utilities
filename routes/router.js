@@ -4,6 +4,7 @@ var admin = express.Router();
 var HomeController = require('./../controllers/home_controller');
 var UsersController = require('./../controllers/users_controller');
 var AdminDashboard = require('./../controllers/admin/dashboard_controller');
+var AdminProviders = require('./../controllers/admin/providers_controller');
 
 
 router.route('/')
@@ -16,6 +17,8 @@ router.route('/users/:id')
 
 admin.route('/')
   .get(AdminDashboard.index);
+admin.route('/providers')
+  .get(AdminProviders.index);
 
 
 module.exports = {
