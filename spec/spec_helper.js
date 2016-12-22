@@ -1,12 +1,22 @@
-let serverConfig = require('../bin/server');
-let server = serverConfig.server;
-let port = serverConfig.port;
+process.env.PORT = 4000;
+process.env.NODE_ENV = 'test';
 
-global.before(function() {
-  process.env.NODE_ENV = 'test';
-  server.listen(port);
+const serverConfig = require('../bin/server');
+const server = serverConfig.server;
+const port = serverConfig.port;
+const factory = require('factory-girl').factory;
+
+
+global.before((done) => {
+  BASE_URL = "http://localhost:" + process.env.PORT;
+
+  server.listen(port, 'localhost', () => {
+    done();
+  });
 });
 
-global.after(function() {
-  server.close();
+global.after((done) => {
+  server.close(() => {
+    done();
+  });
 });
