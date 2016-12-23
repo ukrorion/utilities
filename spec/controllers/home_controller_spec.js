@@ -5,7 +5,6 @@ describe('HomeController', () => {
   it('should respond with correct status', (done) => {
     superagent.get(BASE_URL)
       .end((err, res) => {
-        console.log(res.status);
         if(err) {
           done(err);
         } else {

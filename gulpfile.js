@@ -1,6 +1,8 @@
-let gulp = require('gulp');
-let server = require('gulp-express');
-let sass = require('gulp-sass');
+const gulp = require('gulp');
+const server = require('gulp-express');
+const sass = require('gulp-sass');
+const mocha = require('gulp-mocha');
+
 
 const WATCH_TO_RESTART = [
   'controllers/**/*.js',
@@ -21,6 +23,38 @@ gulp.task('sass', function () {
 
 gulp.task('set_dev_env', () => {
   return process.env.NODE_ENV = 'development';
+});
+
+gulp.task('set_test_env', () => {
+  return process.env.NODE_ENV = 'test';
+});
+
+gulp.task('utests', ['set_test_env'], () => {
+  return gulp.src(['spec/factories/*.js','spec/spec_helper.js','spec/models/**/*.js','spec/controllers/**/*.js'])
+    .pipe(mocha({
+      reporter: 'spec',
+      ui: 'bdd'
+    }))
+    .once('error', () => {
+      process.exit(1);
+    })
+    .once('end', () => {
+      process.exit();
+    });
+});
+
+gulp.task('itests', ['set_test_env'], () => {
+  return gulp.src(['spec/factories/*.js','spec/spec_helper.js', 'spec/features/**/*.js'])
+    .pipe(mocha({
+      reporter: 'spec',
+      timeout: 10000
+    }))
+    .once('error', () => {
+      process.exit(1);
+    })
+    .once('end', () => {
+      process.exit();
+    });
 });
 
 gulp.task('server', () => {
