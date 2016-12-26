@@ -15,6 +15,15 @@ const WATCH_TO_RELOAD = [
   'public/**/*.css'
 ];
 
+const UTEST_PATHS = [
+  'spec/factories/*.js',
+  'spec/spec_helper.js',
+  'spec/models/**/*.js',
+  'spec/controllers/**/*.js'
+];
+
+let errors = [];
+
 gulp.task('sass', function () {
   return gulp.src('assets/stylesheets/**/*.sass')
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
@@ -30,26 +39,27 @@ gulp.task('set_test_env', () => {
 });
 
 gulp.task('utests', ['set_test_env'], () => {
-  return gulp.src(['spec/factories/*.js','spec/spec_helper.js','spec/models/**/*.js','spec/controllers/**/*.js'])
+  return gulp.src(UTEST_PATHS)
     .pipe(mocha({
       reporter: 'spec',
       ui: 'bdd'
     }))
-    .once('error', () => {
-      process.exit(1);
+    .on('error', (err) => {
+      errors.push(err);
     })
-    .once('end', () => {
-      process.exit();
+    .on('end', () => {
+      errors = [];
     });
 });
 
 gulp.task('itests', ['set_test_env'], () => {
-  return gulp.src(['spec/factories/*.js','spec/spec_helper.js', 'spec/features/**/*.js'])
+  return gulp.src(['spec/spec_helper.js', 'spec/factories/*.js', 'spec/features/**/*.js'])
     .pipe(mocha({
       reporter: 'spec',
       timeout: 10000
     }))
-    .once('error', () => {
+    .once('error', (err) => {
+      console.log(err);
       process.exit(1);
     })
     .once('end', () => {
@@ -67,5 +77,9 @@ gulp.task('server', () => {
   gulp.watch('assets/stylesheets/**/*.sass', ['sass']);
 });
 
+
+gulp.task('watch_utests', () => {
+  return gulp.watch(UTEST_PATHS, ['utests']);
+});
 
 gulp.task('default', ['sass', 'set_dev_env', 'server']);
