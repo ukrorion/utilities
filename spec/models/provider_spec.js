@@ -1,3 +1,5 @@
+require('../spec_helper')();
+
 const expect = require('chai').expect;
 const factory = require('factory-girl').factory;
 const Provider = require('../../models/provider');

@@ -1,3 +1,5 @@
+require('../../spec_helper')();
+
 const superagent = require('superagent');
 const expect = require('chai').expect;
 const factory = require('factory-girl').factory;

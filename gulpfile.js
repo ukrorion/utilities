@@ -16,8 +16,6 @@ const WATCH_TO_RELOAD = [
 ];
 
 const UTEST_PATHS = [
-  'spec/factories/*.js',
-  'spec/spec_helper.js',
   'spec/models/**/*.js',
   'spec/controllers/**/*.js'
 ];
@@ -53,7 +51,7 @@ gulp.task('utests', ['set_test_env'], () => {
 });
 
 gulp.task('itests', ['set_test_env'], () => {
-  return gulp.src(['spec/spec_helper.js', 'spec/factories/*.js', 'spec/features/**/*.js'])
+  return gulp.src(['spec/features/**/*.js'])
     .pipe(mocha({
       reporter: 'spec',
       timeout: 10000
