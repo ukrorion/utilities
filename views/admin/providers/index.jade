@@ -2,7 +2,7 @@ extends ./../layout
 
 block content
   h1.title Providers
-  table.table.table-striped
+  table.table.table-striped.providers
     thead
       tr
         th Name
@@ -14,6 +14,6 @@ block content
         tr
           td
             a(href="#" class="provider_name")=provider.name
-          td= provider.owner
+          td= provider.owner_name
           td= provider.created_at
           td= provider.phone

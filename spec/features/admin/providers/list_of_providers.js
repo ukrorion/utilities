@@ -16,34 +16,40 @@ describe('Admin visits providers page', () => {
     Provider.remove().then(()=>{
       factory.createMany('provider', 5).then(res => {
         providers = res;
-        return done();
+        done();
       });
     });
   });
 
-  beforeEach((done) => {
-    client = browser.init();
-    done();
-  });
-  afterEach((done) => {
-    client.end();
-    done();
-  });
+  afterEach(() => { return browser.end() });
 
   it('should be successful', () => {
-    return client
+    return browser.init()
       .url(ADMIN_PROVIDER_PATH)
       .getUrl().then(url => {
-        return expect(url).to.includes('com/providers');
+        return expect(url).to.includes('admin/providers');
       })
   });
 
-  // it('should be correctly located', () => {
-  //   return browser.wait(until.urlContains('admin/providers'), 10000);
-  // });
+  it('should see a table with providers information', () => {
+    return browser.init()
+      .url(ADMIN_PROVIDER_PATH)
+      .element('table.table.providers')
+      .getText().then(text => {
+        return expect(text).to.have.string(providers[0].name);
+      })
+  });
 
-  it('should see a table with providers information');
-  it('each table row should contain provider fields');
+  it('each table row should contain provider fields', () => {
+    return browser.init()
+      .url(ADMIN_PROVIDER_PATH)
+      .element('table.table.providers tbody tr')
+      .getText().then(text => {
+        ({ name, owner_name, created_at } = providers[0]);
+        return expect(text).to.have.string(`${name} ${owner_name} ${created_at.toDateString()}`);
+      })
+  });
+
   it('should see links for each provider to edit, delete, deactivate information in the action column');
   it('provider name should be a link to provider detail information');
   it('should see a button to add new provider');
